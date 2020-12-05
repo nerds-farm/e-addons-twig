@@ -40,11 +40,8 @@ class Shortwig extends Base_Shortcode {
         if (empty($atts['value'])) {
             return '';
         }
-        $override_id = '';
-        if (!empty($atts['id'])) {
-            $override_id = '|'.intval($atts['id']);
-        }
-        return Twig::do_twig('{{'.$atts['value'].$override_id.'}}');
+
+        return Twig::do_twig('{{'.$atts['value'].'}}');
         
     }
     
