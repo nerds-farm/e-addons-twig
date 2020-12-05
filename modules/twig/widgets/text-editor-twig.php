@@ -36,7 +36,7 @@ class Text_Editor_Twig extends Base_Widget {
     }
 
     public function get_pid() {
-        return 302;
+        return 7186;
     }
     
     public function get_icon() {
