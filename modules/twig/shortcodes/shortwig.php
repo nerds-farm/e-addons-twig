@@ -15,15 +15,15 @@ class Shortwig extends Base_Shortcode {
         // add token to 
         add_filter('widget_text', [$this, 'add_twig_to_widget_text']);
     }
-    /*
+    
     public function get_pid() {
-        return 1466;
+        return 7179;
     }
     
     public function get_icon() {
-        return 'eadd-do-shortcode';
+        return 'eadd-shortcode-twig';
     }
-    */    
+       
     public function get_name() {
         return 'shortwig';
     }

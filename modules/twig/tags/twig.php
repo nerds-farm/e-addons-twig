@@ -19,15 +19,15 @@ class Twig extends Base_Tag {
     public function get_name() {
         return 'e-tag-twig';
     }
-    /*
+    
     public function get_icon() {
         return 'eadd-dynamic-tag-twig';
     }
     
     public function get_pid() {
-        return 208;
+        return 7184;
     }
-    */
+    
     public function get_title() {
         return __('Twig', 'e-addons');
     }
