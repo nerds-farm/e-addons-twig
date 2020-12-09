@@ -47,11 +47,17 @@ class Twig extends Module_Base {
     public static function do_twig($string = '', $data = array()) {
 
         global $wp_query;
+        global $e_form;
         $data['wp_query'] = $wp_query;
         $data['queried_object'] = get_queried_object();
+        $data['form'] = $e_form;
 
         foreach (self::$objects as $aobj) {
-            if (strpos($string, '{{' . $aobj) !== false || strpos($string, '{{ ' . $aobj) !== false || strpos($string, ' in ' . $aobj . '.') !== false || strpos($string, 'if ' . $aobj . '.') !== false) {
+            if (strpos($string, '{{' . $aobj) !== false 
+                    || strpos($string, '{{ ' . $aobj) !== false 
+                    || strpos($string, '(' . $aobj . '.') !== false 
+                    || strpos($string, ' in ' . $aobj . '.') !== false 
+                    || strpos($string, 'if ' . $aobj . '.') !== false) {
                 $class = '\Timber\\' . ucfirst($aobj);
                 if ('posts' == $aobj) {
                     $class = '\Timber\PostQuery';

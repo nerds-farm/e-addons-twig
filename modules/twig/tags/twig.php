@@ -14,20 +14,20 @@ if (!defined('ABSPATH')) {
 
 class Twig extends Base_Tag {
 
-    static $acf_names = [];    
+    static $acf_names = [];
 
     public function get_name() {
         return 'e-tag-twig';
     }
-    
+
     public function get_icon() {
         return 'eadd-dynamic-tag-twig';
     }
-    
+
     public function get_pid() {
         return 7184;
     }
-    
+
     public function get_title() {
         return __('Twig', 'e-addons');
     }
@@ -61,31 +61,32 @@ class Twig extends Base_Tag {
                     'label' => __('Twig', 'e-addons'),
                     'type' => \Elementor\Controls_Manager::TEXT,
                     'label_block' => true,
-                    'placeholder' => '[post:title], [post:meta_key], [user:display_name], [term:name], [wp_query:posts]',
+                    'placeholder' => '{post.post_title}',
                     'condition' => [
                         'e_twig_wizard' => '',
                     ],
                 ]
         );
 
-        $obj_opt = [
-            'post' => __('Post', 'e-addons'),
-            'user' => __('User', 'e-addons'),
-            'term' => __('Term', 'e-addons'),
-            // 'comment' =>__('Comment', 'e-addons'),
-            'site'  => __('Site (Option)', 'e-addons'),
-            'posts' => __('Posts (Archive)', 'e-addons'),
-            'wp_query' => __('WP Query', 'e-addons'),
-            'query_object' => __('Query Object', 'e-addons'),
-            'date' => __('Date', 'e-addons'),
-            'system' => __('System', 'e-addons'),
-        ];
-        
         $this->add_control(
                 'e_twig_object', [
             'label' => __('Object', 'e-addons'),
             'type' => Controls_Manager::SELECT,
-            'options' => $obj_opt,
+            'options' => [
+                'post' => __('Post', 'e-addons'),
+                'user' => __('User', 'e-addons'),
+                'term' => __('Term', 'e-addons'),
+                // 'comment' =>__('Comment', 'e-addons'),
+                'theme' => __('Theme', 'e-addons'),
+                'site' => __('Site (Option)', 'e-addons'),
+                //'posts' => __('Posts (Archive)', 'e-addons'),
+                'wp_query' => __('WP Query', 'e-addons'),
+                'query_object' => __('Query Object', 'e-addons'),
+                //'menu' => __('Menu', 'e-addons'),
+                'date' => __('Date', 'e-addons'),
+                'system' => __('System', 'e-addons'),
+                'form' => __('Form', 'e-addons'),
+            ],
             'default' => 'post',
             'condition' => [
                 'e_twig_wizard!' => '',
@@ -99,7 +100,7 @@ class Twig extends Base_Tag {
                     'label' => __('Modifier', 'e-addons'),
                     'type' => \Elementor\Controls_Manager::TEXT,
                     'placeholder' => '+1 week, -2 mounths, yesterday, timestamp',
-                    'description' => __('A time modificator compabile with strtotime OR a timestamp', 'e-addons'),
+                    'description' => __('A time modifier compabile with strtotime OR a timestamp', 'e-addons'),
                     'condition' => [
                         'e_twig_wizard!' => '',
                         'e_twig_object' => 'date',
@@ -191,50 +192,49 @@ class Twig extends Base_Tag {
           ],
           ]
           ); */
-        /*foreach ($objects as $aobj) {
-            $cond = $aobj;
-            if (Utils::is_plugin_active('acf') && $aobj == 'post') {
-                $cond = array('acf', $cond);
-            }
-            $this->add_control(
-                    'e_twig_source_' . $aobj,
-                    [
-                        'label' => __('Source', 'e-addons'),
-                        'type' => 'e-query',
-                        'placeholder' => __('Search ' . ucfirst($aobj), 'e-addons'),
-                        'label_block' => true,
-                        'query_type' => $aobj . 's',
-                        'condition' => [
-                            'e_twig_wizard!' => '',
-                            'e_twig_object' => $cond,
-                        ],
-                    ]
-            );
-        }*/
-        
-        /*$this->add_control(
-                'e_twig_taxonomy',
-                [
-                    'label' => __('Taxonomy', 'e-addons'),
-                    'type' => 'e-query',
-                    'placeholder' => __('Taxonomy Name or slug', 'e-addons'),
-                    'label_block' => true,
-                    'query_type' => 'taxonomies',
-                    'multiple' => true,
-                    'condition' => [
-                        'e_twig_wizard!' => '',
-                        'e_twig_object' => 'term',
-                    ],
-                ]
-        );*/
+        /* foreach ($objects as $aobj) {
+          $cond = $aobj;
+          if (Utils::is_plugin_active('acf') && $aobj == 'post') {
+          $cond = array('acf', $cond);
+          }
+          $this->add_control(
+          'e_twig_source_' . $aobj,
+          [
+          'label' => __('Source', 'e-addons'),
+          'type' => 'e-query',
+          'placeholder' => __('Search ' . ucfirst($aobj), 'e-addons'),
+          'label_block' => true,
+          'query_type' => $aobj . 's',
+          'condition' => [
+          'e_twig_wizard!' => '',
+          'e_twig_object' => $cond,
+          ],
+          ]
+          );
+          } */
+
+        /* $this->add_control(
+          'e_twig_taxonomy',
+          [
+          'label' => __('Taxonomy', 'e-addons'),
+          'type' => 'e-query',
+          'placeholder' => __('Taxonomy Name or slug', 'e-addons'),
+          'label_block' => true,
+          'query_type' => 'taxonomies',
+          'multiple' => true,
+          'condition' => [
+          'e_twig_wizard!' => '',
+          'e_twig_object' => 'term',
+          ],
+          ]
+          ); */
 
         $this->add_control(
                 'e_twig_filter',
                 [
                     'label' => __('Filters', 'e-addons'),
-                    'type' => \Elementor\Controls_Manager::TEXTAREA,
-                    'rows' => 2,
-                    'placeholder' => 'trim',
+                    'type' => \Elementor\Controls_Manager::TEXT,
+                    'placeholder' => 'trim|lower',
                     'label_block' => true,
                     'condition' => [
                         'e_twig_wizard!' => '',
@@ -245,7 +245,7 @@ class Twig extends Base_Tag {
         $this->add_control(
                 'e_twig_code',
                 [
-                    'label' => __('Show code', 'e-addons'),
+                    'label' => __('Show original code', 'e-addons'),
                     'type' => \Elementor\Controls_Manager::SWITCHER,
                     'condition' => [
                         'e_twig_wizard!' => '',
@@ -283,14 +283,13 @@ class Twig extends Base_Tag {
         //var_dump($settings);
         if (!empty($settings['e_twig_wizard'])) {
             $objects = array('post', 'user', 'term');
-            
+
             $open = '{{';
             $twig = $open;
             $twig .= $settings['e_twig_object'];
 
             foreach ($objects as $aobj) {
-                if ($settings['e_twig_object'] == $aobj 
-                    && !empty($settings['e_twig_field_' . $aobj])) {
+                if ($settings['e_twig_object'] == $aobj && !empty($settings['e_twig_field_' . $aobj])) {
                     $twig .= '.' . $settings['e_twig_field_' . $aobj];
                 }
             }
@@ -307,26 +306,30 @@ class Twig extends Base_Tag {
             }
 
             if ($settings['e_twig_object'] == 'date') {
-                $twig = $open.'"now"';
+                $twig = $open . '"now"';
                 if ($settings['e_twig_field_date']) {
-                    $twig .= '|date_modify("' . $settings['e_twig_field_date'].'")';
+                    if (is_numeric($settings['e_twig_field_date'])) {
+                        $twig = $open . $settings['e_twig_field_date'];
+                    } else {
+                        $twig .= '|date_modify("' . $settings['e_twig_field_date'] . '")';
+                    }
                 }
                 if ($settings['e_twig_field_date_format']) {
-                    $twig .= '|date("' . $settings['e_twig_field_date_format'].'")';
+                    $twig .= '|date("' . $settings['e_twig_field_date_format'] . '")';
                 }
             }
-            
-            /*if ($settings['e_twig_object'] == 'term' && !empty($settings['e_twig_taxonomy'])) {
-                $twig .= '|' . implode('|', $settings['e_twig_taxonomy']);
-            }*/
-            
+
+            /* if ($settings['e_twig_object'] == 'term' && !empty($settings['e_twig_taxonomy'])) {
+              $twig .= '|' . implode('|', $settings['e_twig_taxonomy']);
+              } */
+
             if ($settings['e_twig_filter']) {
                 $filters = explode(PHP_EOL, $settings['e_twig_filter']);
                 $twig .= '|' . implode('|', $filters);
             }
 
             $twig .= '}}';
-            
+
             if ($settings['e_twig_code']) {
                 echo $twig;
                 return;
