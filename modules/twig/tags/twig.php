@@ -192,26 +192,22 @@ class Twig extends Base_Tag {
           ],
           ]
           ); */
-        /* foreach ($objects as $aobj) {
-          $cond = $aobj;
-          if (Utils::is_plugin_active('acf') && $aobj == 'post') {
-          $cond = array('acf', $cond);
-          }
-          $this->add_control(
-          'e_twig_source_' . $aobj,
-          [
-          'label' => __('Source', 'e-addons'),
-          'type' => 'e-query',
-          'placeholder' => __('Search ' . ucfirst($aobj), 'e-addons'),
-          'label_block' => true,
-          'query_type' => $aobj . 's',
-          'condition' => [
-          'e_twig_wizard!' => '',
-          'e_twig_object' => $cond,
-          ],
-          ]
-          );
-          } */
+        foreach ($objects as $aobj) {
+            $this->add_control(
+                    'e_twig_source_' . $aobj,
+                    [
+                        'label' => __('Source', 'e-addons'),
+                        'type' => 'e-query',
+                        'placeholder' => __('Set other ' . ucfirst($aobj), 'e-addons'),
+                        'label_block' => true,
+                        'query_type' => $aobj . 's',
+                        'condition' => [
+                            'e_twig_wizard!' => '',
+                            'e_twig_object' => $aobj,
+                        ],
+                    ]
+            );
+        }
 
         /* $this->add_control(
           'e_twig_taxonomy',
@@ -338,7 +334,18 @@ class Twig extends Base_Tag {
             $twig = $settings['e_twig'];
         }
 
-        $value = Utils::get_dynamic_data($twig);
+        $data = array();
+        if (!empty($settings['e_twig_source_post'])) {
+            $data['post'] = new \Timber\Post($settings['e_twig_source_post']);
+        }
+        if (!empty($settings['e_twig_source_term'])) {
+            $data['term'] = new \Timber\Term($settings['e_twig_source_term']);
+        }
+        if (!empty($settings['e_twig_source_user'])) {
+            $data['user'] = new \Timber\User($settings['e_twig_source_user']);
+        }
+        $value = \EAddonsTwig\Modules\Twig\Twig::do_twig($twig, $data);
+        $value = Utils::get_dynamic_data($value);
         return $value;
     }
 

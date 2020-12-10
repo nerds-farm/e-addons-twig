@@ -53,6 +53,9 @@ class Twig extends Module_Base {
         $data['form'] = $e_form;
 
         foreach (self::$objects as $aobj) {
+            if (!empty($data[$aobj])) {
+                continue;
+            }
             if (strpos($string, '{{' . $aobj) !== false 
                     || strpos($string, '{{ ' . $aobj) !== false 
                     || strpos($string, '(' . $aobj . '.') !== false 
@@ -82,7 +85,7 @@ class Twig extends Module_Base {
         $sanitize_string = self::sanitize_string($string);
         if (!$sanitize_string)
             return $string;
-        \Timber\Timber::render_string($sanitize_string, $data);
+        return \Timber\Timber::compile_string($sanitize_string, $data);
     }
 
     public static function sanitize_string($string = '') {
