@@ -14,8 +14,6 @@ if (!defined('ABSPATH')) {
 
 class Twig extends Base_Tag {
 
-    static $acf_names = [];
-
     public function get_name() {
         return 'e-tag-twig';
     }
@@ -270,7 +268,6 @@ class Twig extends Base_Tag {
             return;
 
         $value = $this->get_twig_value($settings);
-        //var_dump($value); die();
 
         echo $value;
     }
@@ -354,9 +351,7 @@ class Twig extends Base_Tag {
         if (empty($settings))
             return;
 
-        \EAddonsTwigs\Modules\Twigs\Twigs::$data = true;
         $value = $this->get_twig_value($settings);
-        \EAddonsTwigs\Modules\Twigs\Twigs::$data = false;
 
         // for MEDIA Control
         if (filter_var($value, FILTER_VALIDATE_URL)) {

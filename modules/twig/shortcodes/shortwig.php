@@ -12,7 +12,7 @@ use EAddonsTwig\Modules\Twig\Twig;
 class Shortwig extends Base_Shortcode {
     
     public function __construct() {
-        // add token to 
+        // add Twig to Text Widgets 
         add_filter('widget_text', [$this, 'add_twig_to_widget_text']);
     }
     

@@ -14,7 +14,7 @@ class Twig extends Module_Base {
     public static $objects = array('post', 'user', 'term', 'theme', 'site', 'menu', 'posts');
 
     /**
-     * Token constructor.
+     * Twig constructor.
      *
      * @since 1.0.1
      * @param array $args
@@ -22,7 +22,11 @@ class Twig extends Module_Base {
     public function __construct() {
         parent::__construct();
         add_filter('e_addons/dynamic', [$this, 'filter_twig'], 10, 3);
+        
+        // prevent fatal error
         add_action('elementor/editor/after_enqueue_scripts', [$this, 'enqueue_editor_assets']);
+        
+        // ADD more twig filters
         add_action('timber/twig/filters', array($this, 'add_timber_filters'));
         add_action('timber/twig/functions', array($this, 'add_timber_functions'));
         //add_action( 'timber/twig/escapers', array( $this, 'add_timber_escapers' ) );
@@ -48,6 +52,7 @@ class Twig extends Module_Base {
 
         global $wp_query;
         global $e_form;
+
         $data['wp_query'] = $wp_query;
         $data['queried_object'] = get_queried_object();
         $data['form'] = $e_form;
@@ -83,8 +88,9 @@ class Twig extends Module_Base {
           } */
 
         $sanitize_string = self::sanitize_string($string);
-        if (!$sanitize_string)
+        if (!$sanitize_string) {
             return $string;
+        }
         return \Timber\Timber::compile_string($sanitize_string, $data);
     }
 
@@ -108,11 +114,10 @@ class Twig extends Module_Base {
         $count_copen = substr_count($string, $copen);
         $count_cclose = substr_count($string, $cclose);
 
-        //var_dump($count_open);var_dump($count_close);
         if ((!$count_open && !$count_lopen) || $count_open != $count_close || $count_lopen != $count_lclose || $count_copen != $count_cclose) {
             return false;
         }
-        //var_dump($string);
+        
         return $string;
     }
 

@@ -32,7 +32,6 @@ if (!defined('ABSPATH')) {
  * @since 0.1.0
  */
 add_action('e_addons/loaded', function() {
-    // Require the main plugin file
     require_once( __DIR__.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'plugin.php' );
     $plugin = new \EAddonsTwig\Plugin();
 });
