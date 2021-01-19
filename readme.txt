@@ -4,7 +4,7 @@ Donate link: https://e-addons.com/donate/
 Tags: elementor, addons, extension, twig, timber, code, loop, theme, template
 Requires at least: 5.0
 Tested up to: 5.5.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -19,6 +19,9 @@ People new to WordPress will like how it reduces the WordPress-specific knowledg
 While pros can take advantage of object-oriented patterns that adhere to DRY and MVC principles.
 
 == Changelog ==
+
+= 1.0.3 =
+* Speed: compile code optimization
 
 = 1.0.2 =
 * Fix: Compatibility with Elementor 3.1.0

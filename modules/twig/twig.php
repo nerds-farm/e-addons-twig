@@ -22,16 +22,16 @@ class Twig extends Module_Base {
     public function __construct() {
         parent::__construct();
         add_filter('e_addons/dynamic', [$this, 'filter_twig'], 10, 3);
-        
+
         // prevent fatal error
         add_action('elementor/editor/after_enqueue_scripts', [$this, 'enqueue_editor_assets']);
-        
+
         // ADD more twig filters
         add_action('timber/twig/filters', array($this, 'add_timber_filters'));
         add_action('timber/twig/functions', array($this, 'add_timber_functions'));
         //add_action( 'timber/twig/escapers', array( $this, 'add_timber_escapers' ) );
     }
-    
+
     /**
      * Enqueue admin styles
      *
@@ -43,44 +43,12 @@ class Twig extends Module_Base {
         wp_enqueue_style('e-addons-editor-twig');
     }
 
-    public function filter_twig($value = '') {
-        $value = self::do_twig($value);
+    public function filter_twig($value = '', $data = array(), $var = '') {
+        $value = self::do_twig($value, $data, $var);
         return $value;
     }
 
-    public static function do_twig($string = '', $data = array()) {
-
-        global $wp_query;
-        global $e_form;
-
-        $data['wp_query'] = $wp_query;
-        $data['queried_object'] = get_queried_object();
-        $data['form'] = $e_form;
-
-        foreach (self::$objects as $aobj) {
-            if (!empty($data[$aobj])) {
-                continue;
-            }
-            if (strpos($string, '{{' . $aobj) !== false 
-                    || strpos($string, '{{ ' . $aobj) !== false 
-                    || strpos($string, '(' . $aobj . '.') !== false 
-                    || strpos($string, ' in ' . $aobj . '.') !== false 
-                    || strpos($string, 'if ' . $aobj . '.') !== false) {
-                $class = '\Timber\\' . ucfirst($aobj);
-                if ('posts' == $aobj) {
-                    $class = '\Timber\PostQuery';
-                }
-                $data[$aobj] = new $class();
-            }
-        }
-        
-        $data['system'] = array(
-            'get' => $_GET,
-            'post' => $_POST,
-            'request' => $_REQUEST,
-            'cookie' => $_COOKIE,
-            'server' => $_SERVER,
-        );
+    public static function do_twig($string = '', $data = array(), $var = '') {
 
         /* if (strpos(string, '{{comment') !== false) {
          * // use post.comments
@@ -91,6 +59,41 @@ class Twig extends Module_Base {
         if (!$sanitize_string) {
             return $string;
         }
+        
+        global $wp_query;
+        global $e_form;
+
+        if ($var && !empty($data)) {
+            $data = array($var => $data);
+        }
+
+        $data['wp_query'] = $wp_query;
+        $data['queried_object'] = get_queried_object();
+        if ($var != 'form' && !empty($e_form)) {
+            $data['form'] = $e_form;
+        }
+        
+        foreach (self::$objects as $aobj) {
+            if (!empty($data[$aobj])) {
+                continue;
+            }
+            if (strpos($string, '{{' . $aobj) !== false || strpos($string, '{{ ' . $aobj) !== false || strpos($string, '(' . $aobj . '.') !== false || strpos($string, ' in ' . $aobj . '.') !== false || strpos($string, 'if ' . $aobj . '.') !== false) {
+                $class = '\Timber\\' . ucfirst($aobj);
+                if ('posts' == $aobj) {
+                    $class = '\Timber\PostQuery';
+                }
+                $data[$aobj] = new $class();
+            }
+        }
+
+        $data['system'] = array(
+            'get' => $_GET,
+            'post' => $_POST,
+            'request' => $_REQUEST,
+            'cookie' => $_COOKIE,
+            'server' => $_SERVER,
+        );
+        
         return \Timber\Timber::compile_string($sanitize_string, $data);
     }
 
@@ -117,7 +120,7 @@ class Twig extends Module_Base {
         if ((!$count_open && !$count_lopen) || $count_open != $count_close || $count_lopen != $count_lclose || $count_copen != $count_cclose) {
             return false;
         }
-        
+
         return $string;
     }
 
@@ -161,11 +164,11 @@ class Twig extends Module_Base {
         $twig->addFilter(new \Timber\Twig_Filter('strtoupper', 'strtoupper'));
         $twig->addFilter(new \Timber\Twig_Filter('maybe_unserialize', 'maybe_unserialize'));
         $twig->addFilter(new \Timber\Twig_Filter('json_decode', function($arr) {
-                    return json_decode($arr, true);
-                }));
+                            return json_decode($arr, true);
+                        }));
         $twig->addFilter(new \Timber\Twig_Filter('var_dump', function($arr) {
-                    return '<pre>' . var_export($arr, true) . '</pre>';
-                }));
+                            return '<pre>' . var_export($arr, true) . '</pre>';
+                        }));
 
         return $twig;
     }
