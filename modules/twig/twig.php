@@ -94,6 +94,16 @@ class Twig extends Module_Base {
             'server' => $_SERVER,
         );
         
+        if ( !defined('E_TIMBER_LOADED') ) {
+                //\Timber\Twig::init();
+                \Timber\ImageHelper::init();
+                //\Timber\Admin::init();
+                $integrations = new \Timber\Integrations();
+                define('E_TIMBER_LOADED', true);
+        }
+        
+        $integrations->maybe_init_integrations();
+        
         return \Timber\Timber::compile_string($sanitize_string, $data);
     }
 
@@ -159,6 +169,10 @@ class Twig extends Module_Base {
         foreach ($sanitizers as $filter) {
             $twig->addFilter(new \Timber\Twig_Filter($filter, $filter));
         }
+        
+        $twig->addFilter(new \Timber\Twig_Filter('get_permalink', 'get_permalink'));
+        $twig->addFilter(new \Timber\Twig_Filter('permalink', 'get_permalink'));
+        $twig->addFilter(new \Timber\Twig_Filter('link', 'get_permalink'));
 
         $twig->addFilter(new \Timber\Twig_Filter('strtolower', 'strtolower'));
         $twig->addFilter(new \Timber\Twig_Filter('strtoupper', 'strtoupper'));
@@ -170,6 +184,7 @@ class Twig extends Module_Base {
                             return '<pre>' . var_export($arr, true) . '</pre>';
                         }));
 
+                        
         return $twig;
     }
 
