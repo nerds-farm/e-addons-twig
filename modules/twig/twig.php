@@ -99,10 +99,9 @@ class Twig extends Module_Base {
                 \Timber\ImageHelper::init();
                 //\Timber\Admin::init();
                 $integrations = new \Timber\Integrations();
+                $integrations->maybe_init_integrations();
                 define('E_TIMBER_LOADED', true);
         }
-        
-        $integrations->maybe_init_integrations();
         
         return \Timber\Timber::compile_string($sanitize_string, $data);
     }
