@@ -95,7 +95,7 @@ class Twig extends Module_Base {
         );
         
         if ( !defined('E_TIMBER_LOADED') ) {
-                //\Timber\Twig::init();
+                \Timber\Twig::init();
                 \Timber\ImageHelper::init();
                 //\Timber\Admin::init();
                 $integrations = new \Timber\Integrations();

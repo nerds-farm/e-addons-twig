@@ -4,7 +4,7 @@ Donate link: https://e-addons.com/donate/
 Tags: elementor, addons, extension, twig, timber, code, loop, theme, template
 Requires at least: 5.0
 Tested up to: 5.5.1
-Stable tag: 1.1
+Stable tag: 1.1.1
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -20,8 +20,11 @@ While pros can take advantage of object-oriented patterns that adhere to DRY and
 
 == Changelog ==
 
+= 1.1.1 =
+* Fix: Timber functions
+
 = 1.1 =
-* Add: optiona Code Control
+* Add: switch to Code Control
 * Update: Twig vendors
 * Fix: Integrations
 
