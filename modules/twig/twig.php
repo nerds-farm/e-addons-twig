@@ -73,6 +73,11 @@ class Twig extends Module_Base {
             $data['form'] = $e_form;
         }
         
+        if (Utils::is_plugin_active('woocommerce')) {
+            global $product;
+            $data['product'] = $product;
+        }
+        
         foreach (self::$objects as $aobj) {
             if (!empty($data[$aobj])) {
                 continue;
@@ -102,6 +107,8 @@ class Twig extends Module_Base {
                 $integrations->maybe_init_integrations();
                 define('E_TIMBER_LOADED', true);
         }
+        
+        $data = apply_filters('e-addons/twig/data', $data);
         
         return \Timber\Timber::compile_string($sanitize_string, $data);
     }

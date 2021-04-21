@@ -90,7 +90,21 @@ class Text_Editor_Twig extends Base_Widget {
                         'active' => true,
                     ],
                     'condition' => [
-                        'text_or_code!' => '',
+                        'text_or_code' => 'yes',
+                    ]
+                ]
+        );
+        
+        $this->add_control(
+                'file_w_twig',
+                [
+                    'label' => 'Select TWIG Template File', //__( 'Text with Twig', 'e-addons' ),
+                    'placeholder' => 'Ex: "wp-content/themes/my-theme/my-custom-file.twig"',
+                    'type' => 'e-query',
+                    'query_type' => 'files',
+                    'label_block' => true,
+                    'condition' => [
+                        'text_or_code' => 'file',
                     ]
                 ]
         );
@@ -98,9 +112,23 @@ class Text_Editor_Twig extends Base_Widget {
         $this->add_control(
                 'text_or_code',
                 [
-                    'label' => 'Switch to CODE editor', //
-                    'type' => Controls_Manager::SWITCHER,
-                    'description' => __( 'Ideal for writing a more complex code', 'e-addons' ),
+                    'label' => 'Source', //
+                    'type' => Controls_Manager::CHOOSE,
+                    'options' => [
+                        '' => [
+                            'title' => __('WYSIWYG Text', 'e-addons'),
+                            'icon' => 'eicon-text',
+                        ],
+                        'yes' => [
+                            'title' => __('CODE', 'e-addons'),
+                            'icon' => 'eicon-editor-code',
+                        ],
+                        'file' => [
+                            'title' => __('Template File', 'e-addons'),
+                            'icon' => 'eicon-document-file',
+                        ],
+                    ],
+                    'description' => __( 'Write in Visual way with WYSIWYG, paste the Twig Code or Include from a Template file', 'e-addons' ),
                 ]
         );
 
@@ -261,156 +289,6 @@ class Text_Editor_Twig extends Base_Widget {
           );
           $this->end_controls_section(); */
 
-
-        $this->start_controls_section(
-                'section_drop_cap',
-                [
-                    'label' => __('Drop Cap', 'elementor'),
-                    'tab' => Controls_Manager::TAB_STYLE,
-                    'condition' => [
-                        'drop_cap' => 'yes',
-                    ],
-                ]
-        );
-
-        $this->add_control(
-                'drop_cap_view',
-                [
-                    'label' => __('View', 'elementor'),
-                    'type' => Controls_Manager::SELECT,
-                    'options' => [
-                        'default' => __('Default', 'elementor'),
-                        'stacked' => __('Stacked', 'elementor'),
-                        'framed' => __('Framed', 'elementor'),
-                    ],
-                    'default' => 'default',
-                    'prefix_class' => 'elementor-drop-cap-view-',
-                    'condition' => [
-                        'drop_cap' => 'yes',
-                    ],
-                ]
-        );
-
-        $this->add_control(
-                'drop_cap_primary_color',
-                [
-                    'label' => __('Primary Color', 'elementor'),
-                    'type' => Controls_Manager::COLOR,
-                    'selectors' => [
-                        '{{WRAPPER}}.elementor-drop-cap-view-stacked .elementor-drop-cap' => 'background-color: {{VALUE}};',
-                        '{{WRAPPER}}.elementor-drop-cap-view-framed .elementor-drop-cap, {{WRAPPER}}.elementor-drop-cap-view-default .elementor-drop-cap' => 'color: {{VALUE}}; border-color: {{VALUE}};',
-                    ],
-                    'condition' => [
-                        'drop_cap' => 'yes',
-                    ],
-                ]
-        );
-
-        $this->add_control(
-                'drop_cap_secondary_color',
-                [
-                    'label' => __('Secondary Color', 'elementor'),
-                    'type' => Controls_Manager::COLOR,
-                    'selectors' => [
-                        '{{WRAPPER}}.elementor-drop-cap-view-framed .elementor-drop-cap' => 'background-color: {{VALUE}};',
-                        '{{WRAPPER}}.elementor-drop-cap-view-stacked .elementor-drop-cap' => 'color: {{VALUE}};',
-                    ],
-                    'condition' => [
-                        'drop_cap_view!' => 'default',
-                    ],
-                ]
-        );
-
-        $this->add_control(
-                'drop_cap_size',
-                [
-                    'label' => __('Size', 'elementor'),
-                    'type' => Controls_Manager::SLIDER,
-                    'default' => [
-                        'size' => 5,
-                    ],
-                    'range' => [
-                        'px' => [
-                            'max' => 30,
-                        ],
-                    ],
-                    'selectors' => [
-                        '{{WRAPPER}} .elementor-drop-cap' => 'padding: {{SIZE}}{{UNIT}};',
-                    ],
-                    'condition' => [
-                        'drop_cap_view!' => 'default',
-                    ],
-                ]
-        );
-
-        $this->add_control(
-                'drop_cap_space',
-                [
-                    'label' => __('Space', 'elementor'),
-                    'type' => Controls_Manager::SLIDER,
-                    'default' => [
-                        'size' => 10,
-                    ],
-                    'range' => [
-                        'px' => [
-                            'max' => 50,
-                        ],
-                    ],
-                    'selectors' => [
-                        'body:not(.rtl) {{WRAPPER}} .elementor-drop-cap' => 'margin-right: {{SIZE}}{{UNIT}};',
-                        'body.rtl {{WRAPPER}} .elementor-drop-cap' => 'margin-left: {{SIZE}}{{UNIT}};',
-                    ],
-                ]
-        );
-
-        $this->add_control(
-                'drop_cap_border_radius',
-                [
-                    'label' => __('Border Radius', 'elementor'),
-                    'type' => Controls_Manager::SLIDER,
-                    'size_units' => ['%', 'px'],
-                    'default' => [
-                        'unit' => '%',
-                    ],
-                    'range' => [
-                        '%' => [
-                            'max' => 50,
-                        ],
-                    ],
-                    'selectors' => [
-                        '{{WRAPPER}} .elementor-drop-cap' => 'border-radius: {{SIZE}}{{UNIT}};',
-                    ],
-                ]
-        );
-
-        $this->add_control(
-                'drop_cap_border_width', [
-            'label' => __('Border Width', 'elementor'),
-            'type' => Controls_Manager::DIMENSIONS,
-            'selectors' => [
-                '{{WRAPPER}} .elementor-drop-cap' => 'border-width: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-            ],
-            'condition' => [
-                'drop_cap_view' => 'framed',
-            ],
-                ]
-        );
-
-        $this->add_group_control(
-                Group_Control_Typography::get_type(),
-                [
-                    'name' => 'drop_cap_typography',
-                    'selector' => '{{WRAPPER}} .elementor-drop-cap-letter',
-                    'exclude' => [
-                        'letter_spacing',
-                    ],
-                    'condition' => [
-                        'drop_cap' => 'yes',
-                    ],
-                ]
-        );
-
-        $this->end_controls_section();
     }
 
     protected function render() {
@@ -420,7 +298,22 @@ class Text_Editor_Twig extends Base_Widget {
         ?>
         <div <?php echo $this->get_render_attribute_string('twig'); ?>>
             <?php
-            $text_w_twig = $settings['text_or_code'] ? $settings['code_w_twig'] : $settings['text_w_twig'];
+            $text_w_twig = false;
+            switch ($settings['text_or_code']) { 
+                case 'file':
+                    $file_path = ABSPATH . $settings['file_w_twig'];
+                    if (file_exists($file_path)) {
+                        $text_w_twig = file_get_contents($file_path);
+                    }
+                    break;
+                case 'code':
+                case 'yes':
+                    $text_w_twig = $settings['code_w_twig'];
+                    break;
+                default:
+                    $text_w_twig = $settings['text_w_twig'];
+            }
+            
             if ($text_w_twig) {
                 /* if ($settings['html_tag']) {
                   $text_w_twig = str_replace('{{', '<'.$settings['html_tag'].' class="e-twig">{{', $text_w_twig);

@@ -4,7 +4,7 @@ Donate link: https://e-addons.com/donate/
 Tags: elementor, addons, extension, twig, timber, code, loop, theme, template
 Requires at least: 5.0
 Tested up to: 5.5.1
-Stable tag: 1.1.1
+Stable tag: 1.2
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -19,6 +19,10 @@ People new to WordPress will like how it reduces the WordPress-specific knowledg
 While pros can take advantage of object-oriented patterns that adhere to DRY and MVC principles.
 
 == Changelog ==
+
+= 1.2 =
+* Add: apply Filter 'e-addons/twig/data' before render
+* Add: Widget Twig render from Twig Template file 
 
 = 1.1.1 =
 * Fix: Timber functions
