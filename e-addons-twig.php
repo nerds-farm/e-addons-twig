@@ -6,7 +6,7 @@
  * Plugin Name:       e-addons TWIG
  * Plugin URI:        https://e-addons.com
  * Description:       Write dynamic texts anywhere without the need to know how to program
- * Version:           1.2
+ * Version:           1.2.1
  * Author:            Nerds Farm
  * Author URI:        https://nerds.farm
  * Text Domain:       e-addons-twig

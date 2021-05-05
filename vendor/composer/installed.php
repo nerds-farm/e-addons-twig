@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '531c4eaa4edcb1479e58d542a84fd59462127ef3',
+    'reference' => '70af9e8c4c60a1062ffd1c4b0b1af1a1e6dba58e',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '531c4eaa4edcb1479e58d542a84fd59462127ef3',
+      'reference' => '70af9e8c4c60a1062ffd1c4b0b1af1a1e6dba58e',
     ),
     'altorouter/altorouter' => 
     array (
@@ -63,8 +63,8 @@
     ),
     'symfony/polyfill-ctype' => 
     array (
-      'pretty_version' => 'v1.22.0',
-      'version' => '1.22.0.0',
+      'pretty_version' => 'v1.22.1',
+      'version' => '1.22.1.0',
       'aliases' => 
       array (
       ),
@@ -72,12 +72,12 @@
     ),
     'symfony/polyfill-mbstring' => 
     array (
-      'pretty_version' => 'v1.22.0',
-      'version' => '1.22.0.0',
+      'pretty_version' => 'v1.22.1',
+      'version' => '1.22.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f377a3dd1fde44d37b9831d68dc8dea3ffd28e13',
+      'reference' => '5232de97ee3b75b0360528dae24e73db49566ab1',
     ),
     'timber/timber' => 
     array (
@@ -90,12 +90,12 @@
     ),
     'twig/twig' => 
     array (
-      'pretty_version' => 'v2.14.3',
-      'version' => '2.14.3.0',
+      'pretty_version' => 'v2.14.4',
+      'version' => '2.14.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '8bc568d460d88b25c00c046256ec14a787ea60d9',
+      'reference' => '0b4ba691fb99ec7952d25deb36c0a83061b93bbf',
     ),
     'upstatement/routes' => 
     array (

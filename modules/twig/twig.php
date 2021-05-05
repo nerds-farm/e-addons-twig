@@ -66,7 +66,6 @@ class Twig extends Module_Base {
         if ($var && !empty($data)) {
             $data = array($var => $data);
         }
-
         $data['wp_query'] = $wp_query;
         $data['queried_object'] = get_queried_object();
         if ($var != 'form' && !empty($e_form)) {
@@ -132,6 +131,10 @@ class Twig extends Module_Base {
         $cclose = '#}';
         $count_copen = substr_count($string, $copen);
         $count_cclose = substr_count($string, $cclose);
+        
+        if (substr_count($string, '{{}}') || substr_count($string, '{{ }}')) {
+            return false;
+        }
 
         if ((!$count_open && !$count_lopen) || $count_open != $count_close || $count_lopen != $count_lclose || $count_copen != $count_cclose) {
             return false;
