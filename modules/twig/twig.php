@@ -54,6 +54,7 @@ class Twig extends Module_Base {
          * // use post.comments
           $data['comment'] = new \Timber\Comment(1);
           } */
+        
 
         $sanitize_string = self::sanitize_string($string);
         if (!$sanitize_string) {
@@ -66,6 +67,21 @@ class Twig extends Module_Base {
         if ($var && !empty($data)) {
             $data = array($var => $data);
         }
+        if (!empty($data)) {
+            foreach($data as $key => $value) {
+                if (in_array($key, self::$objects)) {                    
+                    $obj_id = Utils::get_id($value);
+                    if ($obj_id) {
+                        $class = '\Timber\\' . ucfirst($key);
+                        if ('posts' == $key) {
+                            $class = '\Timber\PostQuery';
+                        }
+                        $data[$key] = new $class($obj_id);
+                    }
+                }
+            }
+        }
+        
         $data['wp_query'] = $wp_query;
         $data['queried_object'] = get_queried_object();
         if ($var != 'form' && !empty($e_form)) {

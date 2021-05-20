@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '70af9e8c4c60a1062ffd1c4b0b1af1a1e6dba58e',
+    'reference' => 'd1123f2893743b778308b19bfb6265a3b190751f',
     'name' => '__root__',
   ),
   'versions' => 
@@ -41,7 +41,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '70af9e8c4c60a1062ffd1c4b0b1af1a1e6dba58e',
+      'reference' => 'd1123f2893743b778308b19bfb6265a3b190751f',
     ),
     'altorouter/altorouter' => 
     array (
@@ -63,12 +63,12 @@ private static $installed = array (
     ),
     'composer/installers' => 
     array (
-      'pretty_version' => 'v1.10.0',
-      'version' => '1.10.0.0',
+      'pretty_version' => 'v1.11.0',
+      'version' => '1.11.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1a0357fccad9d1cc1ea0c9a05b8847fbccccb78d',
+      'reference' => 'ae03311f45dfe194412081526be2e003960df74b',
     ),
     'roundcube/plugin-installer' => 
     array (
@@ -113,12 +113,12 @@ private static $installed = array (
     ),
     'twig/twig' => 
     array (
-      'pretty_version' => 'v2.14.4',
-      'version' => '2.14.4.0',
+      'pretty_version' => 'v2.14.6',
+      'version' => '2.14.6.0',
       'aliases' => 
       array (
       ),
-      'reference' => '0b4ba691fb99ec7952d25deb36c0a83061b93bbf',
+      'reference' => '27e5cf2b05e3744accf39d4c68a3235d9966d260',
     ),
     'upstatement/routes' => 
     array (
