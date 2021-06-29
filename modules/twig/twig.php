@@ -93,6 +93,11 @@ class Twig extends Module_Base {
             $data['product'] = $product;
         }
         
+        global $e_widget_query;
+        if (!empty($e_widget_query)) {            
+            $data['query'] = $e_widget_query;
+        }
+        
         foreach (self::$objects as $aobj) {
             if (!empty($data[$aobj])) {
                 continue;

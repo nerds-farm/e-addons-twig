@@ -59,7 +59,7 @@ class Twig extends Base_Tag {
                     'label' => __('Twig', 'e-addons'),
                     'type' => \Elementor\Controls_Manager::TEXT,
                     'label_block' => true,
-                    'placeholder' => '{post.post_title}',
+                    'placeholder' => '{{post.post_title}}',
                     'condition' => [
                         'e_twig_wizard' => '',
                     ],
@@ -388,18 +388,18 @@ class Twig extends Base_Tag {
             $value = ob_get_clean();
         }
 
-        if (empty($value)) {
-            // TODO: fix spaces in `before`/`after` if WRAPPED_TAG ( conflicted with .elementor-tag { display: inline-flex; } );
-            if (!\Elementor\Utils::is_empty($settings, 'before')) {
-                $value = wp_kses_post($settings['before']) . $value;
-            }
-
-            if (!\Elementor\Utils::is_empty($settings, 'after')) {
-                $value .= wp_kses_post($settings['after']);
-            }
-        } elseif (!\Elementor\Utils::is_empty($settings, 'fallback')) {
+        if (empty($value) && !\Elementor\Utils::is_empty($settings, 'fallback')) {
             $value = $settings['fallback'];
             $value = Utils::get_dynamic_data($value);
+        }
+        
+        // TODO: fix spaces in `before`/`after` if WRAPPED_TAG ( conflicted with .elementor-tag { display: inline-flex; } );
+        if (!\Elementor\Utils::is_empty($settings, 'before')) {
+            $value = wp_kses_post($settings['before']) . $value;
+        }
+
+        if (!\Elementor\Utils::is_empty($settings, 'after')) {
+            $value .= wp_kses_post($settings['after']);
         }
 
         return $value;
