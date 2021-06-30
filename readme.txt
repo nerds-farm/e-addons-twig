@@ -4,7 +4,7 @@ Donate link: https://e-addons.com/donate/
 Tags: elementor, addons, extension, twig, timber, code, loop, theme, template
 Requires at least: 5.0
 Tested up to: 5.7.2
-Stable tag: 1.2.3
+Stable tag: 1.3
 Requires PHP: 7.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -19,6 +19,9 @@ People new to WordPress will like how it reduces the WordPress-specific knowledg
 While pros can take advantage of object-oriented patterns that adhere to DRY and MVC principles.
 
 == Changelog ==
+
+= 1.3 =
+* Add: support to all PHP and WP function as Filters "{{post.my_num|php('floor')}}"
 
 = 1.2.3 =
 * Add: support for Query Widgets

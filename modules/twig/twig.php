@@ -54,13 +54,13 @@ class Twig extends Module_Base {
          * // use post.comments
           $data['comment'] = new \Timber\Comment(1);
           } */
-        
+
 
         $sanitize_string = self::sanitize_string($string);
         if (!$sanitize_string) {
             return $string;
         }
-        
+
         global $wp_query;
         global $e_form;
 
@@ -68,8 +68,8 @@ class Twig extends Module_Base {
             $data = array($var => $data);
         }
         if (!empty($data)) {
-            foreach($data as $key => $value) {
-                if (in_array($key, self::$objects)) {                    
+            foreach ($data as $key => $value) {
+                if (in_array($key, self::$objects)) {
                     $obj_id = Utils::get_id($value);
                     if ($obj_id) {
                         $class = '\Timber\\' . ucfirst($key);
@@ -81,23 +81,23 @@ class Twig extends Module_Base {
                 }
             }
         }
-        
+
         $data['wp_query'] = $wp_query;
         $data['queried_object'] = get_queried_object();
         if ($var != 'form' && !empty($e_form)) {
             $data['form'] = $e_form;
         }
-        
+
         if (Utils::is_plugin_active('woocommerce')) {
             global $product;
             $data['product'] = $product;
         }
-        
+
         global $e_widget_query;
-        if (!empty($e_widget_query)) {            
+        if (!empty($e_widget_query)) {
             $data['query'] = $e_widget_query;
         }
-        
+
         foreach (self::$objects as $aobj) {
             if (!empty($data[$aobj])) {
                 continue;
@@ -118,18 +118,18 @@ class Twig extends Module_Base {
             'cookie' => $_COOKIE,
             'server' => $_SERVER,
         );
-        
-        if ( !defined('E_TIMBER_LOADED') ) {
-                \Timber\Twig::init();
-                \Timber\ImageHelper::init();
-                //\Timber\Admin::init();
-                $integrations = new \Timber\Integrations();
-                $integrations->maybe_init_integrations();
-                define('E_TIMBER_LOADED', true);
+
+        if (!defined('E_TIMBER_LOADED')) {
+            \Timber\Twig::init();
+            \Timber\ImageHelper::init();
+            //\Timber\Admin::init();
+            $integrations = new \Timber\Integrations();
+            $integrations->maybe_init_integrations();
+            define('E_TIMBER_LOADED', true);
         }
-        
+
         $data = apply_filters('e-addons/twig/data', $data);
-        
+
         return \Timber\Timber::compile_string($sanitize_string, $data);
     }
 
@@ -152,7 +152,7 @@ class Twig extends Module_Base {
         $cclose = '#}';
         $count_copen = substr_count($string, $copen);
         $count_cclose = substr_count($string, $cclose);
-        
+
         if (substr_count($string, '{{}}') || substr_count($string, '{{ }}')) {
             return false;
         }
@@ -189,7 +189,7 @@ class Twig extends Module_Base {
      */
     public function add_timber_filters($twig) {
 
-        //https://codex.wordpress.org/Function_Reference                
+        //https://codex.wordpress.org/Function_Reference
         $sanitizers = [
             'sanitize_html_class' => 'sanitize_html_class',
             'sanitize_text_field' => 'sanitize_text_field',
@@ -199,22 +199,41 @@ class Twig extends Module_Base {
         foreach ($sanitizers as $filter) {
             $twig->addFilter(new \Timber\Twig_Filter($filter, $filter));
         }
-        
+
         $twig->addFilter(new \Timber\Twig_Filter('get_permalink', 'get_permalink'));
         $twig->addFilter(new \Timber\Twig_Filter('permalink', 'get_permalink'));
         $twig->addFilter(new \Timber\Twig_Filter('link', 'get_permalink'));
 
         $twig->addFilter(new \Timber\Twig_Filter('strtolower', 'strtolower'));
         $twig->addFilter(new \Timber\Twig_Filter('strtoupper', 'strtoupper'));
-        $twig->addFilter(new \Timber\Twig_Filter('maybe_unserialize', 'maybe_unserialize'));
-        $twig->addFilter(new \Timber\Twig_Filter('json_decode', function($arr) {
-                            return json_decode($arr, true);
-                        }));
-        $twig->addFilter(new \Timber\Twig_Filter('var_dump', function($arr) {
-                            return '<pre>' . var_export($arr, true) . '</pre>';
-                        }));
 
-                        
+        $twig->addFilter(new \Timber\Twig_Filter('maybe_unserialize', 'maybe_unserialize'));
+        $twig->addFilter(new \Timber\Twig_Filter('json_decode', function ($arr) {
+            return json_decode($arr, true);
+        }));
+        $twig->addFilter(new \Timber\Twig_Filter('var_dump', function ($arr) {
+            return '<pre>' . var_export($arr, true) . '</pre>';
+        }));
+
+        // add support to all native PHP and WP functions
+        $twig->addFilter(new \Timber\Twig_Filter('php', function ($arg0, $fnc = 'var_dump', $arg1 = null, $arg2 = null, $arg3 = null) {
+            if ($fnc == 'eval')
+                return;
+
+            $args = [$arg1, $arg2, $arg3];
+            $args = array_filter($args);
+
+            $last = array('implode', 'explode', 'date', 'date_i18n', 'get_the_author_meta', 'str_replace', 'preg_replace');
+            if (in_array($fnc, $last)) {
+                // functions that require the main arg at last position
+                $args[] = $arg0;
+            } else {
+                array_unshift($args, $arg0);
+            }
+
+            return call_user_func_array($fnc, $args);
+        }));
+
         return $twig;
     }
 
