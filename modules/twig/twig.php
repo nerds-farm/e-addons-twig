@@ -93,9 +93,11 @@ class Twig extends Module_Base {
             $data['product'] = $product;
         }
 
-        global $e_widget_query;
-        if (!empty($e_widget_query)) {
-            $data['query'] = $e_widget_query;
+        if (empty($data['query'])) {
+            global $e_widget_query;
+            if (!empty($e_widget_query)) {
+                $data['query'] = $e_widget_query;
+            }
         }
 
         foreach (self::$objects as $aobj) {
@@ -210,6 +212,12 @@ class Twig extends Module_Base {
         $twig->addFilter(new \Timber\Twig_Filter('maybe_unserialize', 'maybe_unserialize'));
         $twig->addFilter(new \Timber\Twig_Filter('json_decode', function ($arr) {
             return json_decode($arr, true);
+        }));
+        $twig->addFilter(new \Timber\Twig_Filter('get_term', function ($arr) {
+            return Utils::get_term($arr);
+        }));
+        $twig->addFilter(new \Timber\Twig_Filter('to_string', function ($arr) {
+            return Utils::to_string($arr);
         }));
         $twig->addFilter(new \Timber\Twig_Filter('var_dump', function ($arr) {
             return '<pre>' . var_export($arr, true) . '</pre>';

@@ -1,4 +1,7 @@
 {
+    "config": {
+        "platform-check": false
+    },
     "require": {
         "timber/timber": "^1.18"
     }
